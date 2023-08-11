@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material";
 import PendingListItem from "./PendingListItem";
+import { useAppSelector } from "../../../../redux/hooks";
 
 type InvitationListItemType = {
   _id: string;
@@ -37,9 +38,15 @@ const MainContainer = styled(`div`)({
 });
 
 export default function PendingList() {
+  const { pendingFriendsInvitations } = useAppSelector(
+    (state) => state.friends
+  );
+
+  console.log("test pednign", pendingFriendsInvitations);
+
   return (
     <MainContainer>
-      {DUMMY_INVITATIONS.map((v) => (
+      {pendingFriendsInvitations.map((v) => (
         <PendingListItem
           key={v._id}
           id={v._id}
