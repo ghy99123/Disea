@@ -5,7 +5,6 @@ import { setPendingFriendsInvitations } from "../redux/reducers/friends/friendsS
 let socket: any = null;
 
 export const connectWithSocketServer = (userToken: string) => {
-  console.log("first");
   socket = io("http://localhost:5002", {
     auth: {
       token: userToken,
@@ -19,8 +18,6 @@ export const connectWithSocketServer = (userToken: string) => {
 
   socket.on("friend-invitations", (data: any) => {
     const { pendingInvitations } = data;
-    console.log("friend invitations", pendingInvitations);
-
     store.dispatch(setPendingFriendsInvitations(pendingInvitations));
   });
 };

@@ -20,7 +20,6 @@ export const loginUser = createAsyncThunk(
   async (userLoginInfo: Omit<IUser, "username">, { rejectWithValue }) => {
     try {
       const userDetail = await login(userLoginInfo);
-      console.log(userDetail);
       // localStorage.setItem("user", JSON.stringify(userDetail));
       return userDetail;
     } catch (error: any) {

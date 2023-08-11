@@ -58,7 +58,6 @@ const WithAxios: FC<Props> = ({ children }: Props): ReactElement => {
       },
       (err: any) => {
         // handle http error code
-        console.log("why");
         let message = "";
         switch (err.response.status) {
           case 400:

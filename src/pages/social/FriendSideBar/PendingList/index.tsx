@@ -42,8 +42,6 @@ export default function PendingList() {
     (state) => state.friends
   );
 
-  console.log("test pednign", pendingFriendsInvitations);
-
   return (
     <MainContainer>
       {pendingFriendsInvitations.map((v) => (
