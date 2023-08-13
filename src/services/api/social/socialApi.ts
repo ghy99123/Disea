@@ -8,3 +8,13 @@ export const sendFriendInvitation = async function (
     targetEmailAddress,
   });
 };
+
+export const acceptFriendInvitation = async function (id: string) {
+  return await post<any>(`/friend-invitation/accept`, {
+    id,
+  });
+};
+
+export const rejectFriendInvitation = async function (id: string) {
+  return await post<any>(`/friend-invitation/reject`, { id });
+};

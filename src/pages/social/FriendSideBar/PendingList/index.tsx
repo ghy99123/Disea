@@ -2,31 +2,10 @@ import React from "react";
 import { styled } from "@mui/material";
 import PendingListItem from "./PendingListItem";
 import { useAppSelector } from "../../../../redux/hooks";
-
-type InvitationListItemType = {
-  _id: string;
-  senderId: {
-    username: string;
-    email: string;
-  };
-};
-
-const DUMMY_INVITATIONS: InvitationListItemType[] = [
-  {
-    _id: "1",
-    senderId: {
-      username: "Mark",
-      email: "3434@sss.com",
-    },
-  },
-  {
-    _id: "2",
-    senderId: {
-      username: "Test",
-      email: "3ss4@sss.com",
-    },
-  },
-];
+import {
+  acceptFriendInvitation,
+  rejectFriendInvitation,
+} from "../../../../services/api/social/socialApi";
 
 const MainContainer = styled(`div`)({
   width: "100%",
@@ -50,8 +29,8 @@ export default function PendingList() {
           id={v._id}
           username={v.senderId.username}
           email={v.senderId.email}
-          acceptFriendInvitation={() => {}}
-          rejectFriendInvitation={() => {}}
+          acceptFriendInvitation={() => acceptFriendInvitation(v._id)}
+          rejectFriendInvitation={() => rejectFriendInvitation(v._id)}
         />
       ))}
     </MainContainer>

@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material";
+import { useAppSelector } from "../../../../redux/hooks";
 import FriendListItem from "./FriendListItem";
 
 type FriendListItemType = {
@@ -32,9 +33,11 @@ const MainContainer = styled(`div`)({
 });
 
 export default function FriendList() {
+  const { friends } = useAppSelector((state) => state.friends);
+
   return (
     <MainContainer>
-      {DUMMY_FRIENDS.map((v) => (
+      {friends.map((v) => (
         <FriendListItem
           key={v.id}
           username={v.username}
