@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FriendSideBar, SideBar, Messenger, AppBar } from "./index";
 import { logout } from "../../utils/auth";
 import { DashboardWrapper } from "./style";
-import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection";
+import { connectWithSocketServer } from "../../services/socket/socketConnection";
 import { useAppDispatch } from "../../redux/hooks";
 // import { setUserDetails } from "../../redux/reducers/auth/authSlice";
 

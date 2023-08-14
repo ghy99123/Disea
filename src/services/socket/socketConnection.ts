@@ -1,11 +1,17 @@
 import io from "socket.io-client";
-import { store } from "../redux/store";
+import { store } from "../../redux/store";
 import {
   setPendingFriendsInvitations,
   setFriends,
-} from "../redux/reducers/friends/friendsSlice";
+  setOnlineFriends,
+} from "../../redux/reducers/friends/friendsSlice";
 
 let socket: any = null;
+
+type OnlineUsers = {
+  socketId: string;
+  userId: string;
+};
 
 export const connectWithSocketServer = (userToken: string) => {
   socket = io("http://localhost:5002", {
@@ -27,5 +33,10 @@ export const connectWithSocketServer = (userToken: string) => {
   socket.on("friends-list", (data: any) => {
     const { friends } = data;
     store.dispatch(setFriends(friends));
+  });
+
+  socket.on("online-users", (data: { onlineUsers: OnlineUsers[] }) => {
+    const { onlineUsers } = data;
+    store.dispatch(setOnlineFriends(onlineUsers));
   });
 };
