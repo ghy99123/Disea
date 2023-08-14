@@ -40,3 +40,11 @@ export const connectWithSocketServer = (userToken: string) => {
     store.dispatch(setOnlineFriends(onlineUsers));
   });
 };
+
+export const sendDirectMessage = (data: {
+  receiverUserId: string;
+  content: string;
+}) => {
+  console.log(data);
+  socket.emit("direct-message", data);
+};

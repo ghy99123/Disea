@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import { MessengerContentWrapper } from "./style";
 import Messages from "./Messages";
+import MessageInput from "./MessageInput";
 
 export default function MessengerContent() {
   const { chatDetails } = useAppSelector((state) => state.chat);
@@ -13,6 +14,7 @@ export default function MessengerContent() {
   return (
     <MessengerContentWrapper>
       <Messages />
+      <MessageInput />
     </MessengerContentWrapper>
   );
 }
