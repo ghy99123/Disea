@@ -22,7 +22,7 @@ export default function Avatar(props: IAvatarProps) {
   const { username, large } = props;
   return (
     <AvatarPreview style={large ? { height: "80px", width: "80px" } : {}}>
-      {username.slice(0, 2)}
+      {username.slice(0, 2).toUpperCase()}
     </AvatarPreview>
   );
 }
