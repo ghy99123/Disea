@@ -3,6 +3,8 @@ import { Avatar } from "../../../../components";
 import { FriendListItemButton } from "../style";
 import { Typography, Box } from "@mui/material";
 import { FiberManualRecord } from "@mui/icons-material";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { setChosenChatDetails } from "../../../../redux/reducers/chat/chatSlice";
 
 export interface IFriendListItemProps {
   username: string;
@@ -15,8 +17,19 @@ export default function FriendListItem({
   id,
   isOnline,
 }: IFriendListItemProps) {
+  const dispatch = useAppDispatch();
+
+  const handleChooseActiveConversation = () => {
+    dispatch(
+      setChosenChatDetails({
+        chatDetails: { id, name: username },
+        chatType: "direct",
+      })
+    );
+  };
+
   return (
-    <FriendListItemButton>
+    <FriendListItemButton onClick={handleChooseActiveConversation}>
       <Avatar username={username} />
       <Typography
         sx={{
