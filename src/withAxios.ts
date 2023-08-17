@@ -5,7 +5,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import { useNotification } from "./hooks/useNotification";
+import { useNotification } from "./hooks";
 
 interface Props {
   children: ReactElement;

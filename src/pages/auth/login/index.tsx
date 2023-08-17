@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { useNotification } from "../../../hooks/useNotification";
+import { useNotification } from "../../../hooks";
 import { loginUser } from "../../../redux/reducers/auth/authAction";
 import { Input, RedirectInfo } from "../../../components";
 import { BoxWrapper, Box, TitleContainer } from "../style";

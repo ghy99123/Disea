@@ -11,7 +11,7 @@ import { LoadingButton } from "@mui/lab";
 import { Input } from "../../../components";
 import { validateEmail } from "../../../utils/validate";
 import { sendFriendInvitation } from "../../../services/api/social/socialApi";
-import { useNotification } from "../../../hooks/useNotification";
+import { useNotification } from "../../../hooks";
 
 export interface IAddFriendDialogProps {
   isOpen: boolean;

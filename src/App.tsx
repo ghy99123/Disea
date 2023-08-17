@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Notification } from "./components";
 import AppRouter from "./routes";
 import WithAxios from "./withAxios";
-import { useNotification } from "./hooks/useNotification";
+import { useNotification } from "./hooks";
 import { RootState } from "./redux/store";
 
 function App() {

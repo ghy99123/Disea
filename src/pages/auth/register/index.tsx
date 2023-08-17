@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { registerUser } from "../../../redux/reducers/auth/authAction";
 import { jumpToLogin } from "../../../redux/reducers/auth/authSlice";
 import { Input, RedirectInfo } from "../../../components";
-import { useNotification } from "../../../hooks/useNotification";
+import { useNotification } from "../../../hooks";
 import { BoxWrapper, Box, TitleContainer } from "../style";
 
 export default function Register() {

@@ -6,7 +6,7 @@ import {
   NotificationState,
 } from "../redux/reducers/notification/notificationSlice";
 
-export const useNotification = () => {
+const useNotification = () => {
   const dispatch = useDispatch();
 
   const display = useCallback(
@@ -22,3 +22,5 @@ export const useNotification = () => {
 
   return { display, clear };
 };
+
+export default useNotification;
