@@ -1,75 +1,37 @@
 import React from "react";
+import dayjs from "dayjs";
 import { MessengerMainAreaContainer } from "../style";
 import MessagesHeader from "./MessagesHeader";
-import { Message } from "../../../../components";
-
-const DUMMY_MESSAGES = [
-  {
-    _id: 1,
-    content: "hello",
-    sameAuthor: false,
-    author: {
-      username: "Marek",
-    },
-    date: "22/01/2022",
-    sameDay: false,
-  },
-  {
-    _id: 2,
-    content: "hello once again",
-    sameAuthor: true,
-    author: {
-      username: "Marek",
-    },
-    date: "22/01/2022",
-    sameDay: true,
-  },
-  {
-    _id: 3,
-    content: "hello third time",
-    sameAuthor: true,
-    author: {
-      username: "Marek",
-    },
-    date: "23/01/2022",
-    sameDay: false,
-  },
-  {
-    _id: 4,
-    content: "hello response first time",
-    sameAuthor: false,
-    author: {
-      username: "John",
-    },
-    date: "23/01/2022",
-    sameDay: true,
-  },
-  {
-    _id: 5,
-    content: "hello response third time",
-    sameAuthor: true,
-    author: {
-      username: "John",
-    },
-    date: "24/01/2022",
-    sameDay: false,
-  },
-];
+import { Message, DaySeparator } from "../../../../components";
+import { useAppSelector } from "../../../../redux/hooks";
 
 export default function Messages() {
+  const { messages } = useAppSelector((state) => state.chat);
+
   return (
     <MessengerMainAreaContainer>
       <MessagesHeader />
-      {DUMMY_MESSAGES.map((message, index) => {
+      {messages.map((message, index) => {
+        const sameAuthor =
+          index > 0 && message.author._id === messages[index - 1].author._id;
+        const sameDay =
+          index > 0 &&
+          dayjs(message.date).format("DD/MM/YYYY") ===
+            dayjs(messages[index - 1].date).format("DD/MM/YYYY");
+
         return (
-          <Message
-            key={message._id}
-            content={message.content}
-            username={message.author.username}
-            sameAuthor={message.sameAuthor}
-            date={message.date}
-            sameDay={message.sameDay}
-          />
+          <div key={message._id}>
+            {(!sameDay || index === 0) && (
+              <DaySeparator date={dayjs(message.date).format("DD/MM/YYYY")} />
+            )}
+            <Message
+              content={message.content}
+              username={message.author.username}
+              sameAuthor={sameAuthor}
+              date={dayjs(message.date).format("DD/MM/YYYY")}
+              sameDay={sameDay}
+            />
+          </div>
         );
       })}
     </MessengerMainAreaContainer>

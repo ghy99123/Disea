@@ -5,6 +5,8 @@ import {
   setFriends,
   setOnlineFriends,
 } from "../../redux/reducers/friends/friendsSlice";
+import { setMessages } from "../../redux/reducers/chat/chatSlice";
+import type { MessageType } from "../../redux/reducers/chat/chatSlice";
 
 let socket: any = null;
 
@@ -39,6 +41,15 @@ export const connectWithSocketServer = (userToken: string) => {
     const { onlineUsers } = data;
     store.dispatch(setOnlineFriends(onlineUsers));
   });
+
+  socket.on(
+    "direct-chat-history",
+    (data: { messages: MessageType[]; participants: string[] }) => {
+      console.log(data);
+      store.dispatch(setMessages(data?.messages));
+      // updateDirectChatHistoryIfActive(data);
+    }
+  );
 };
 
 export const sendDirectMessage = (data: {
@@ -47,4 +58,8 @@ export const sendDirectMessage = (data: {
 }) => {
   console.log(data);
   socket.emit("direct-message", data);
+};
+
+export const getDirectChatHistory = (data: { receiverUserId: string }) => {
+  socket.emit("direct-chat-history", data);
 };

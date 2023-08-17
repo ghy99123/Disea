@@ -5,12 +5,23 @@ export type ChatDetails = {
   name: string;
 };
 
-export type ChatType = "direct" | "group" | null;
+export type ChatType = "direct" | "group";
+
+export type MessageType = {
+  author: {
+    _id: string;
+    username: string;
+  };
+  content: string;
+  date: string;
+  type: ChatType;
+  _id: string;
+};
 
 export interface ChatState {
   chatDetails: ChatDetails | null;
-  chatType: ChatType;
-  messages: any[];
+  chatType: ChatType | null;
+  messages: MessageType[];
 }
 
 const initialState: ChatState = {
@@ -29,9 +40,9 @@ export const ChatSlice = createSlice({
     ) => ({
       ...state,
       ...action.payload,
-      messages: [],
+      // messages: [],
     }),
-    setMessages: (state, action: PayloadAction<any[]>) => {
+    setMessages: (state, action: PayloadAction<MessageType[]>) => {
       state.messages = action.payload;
     },
     setChatType: (state, action: PayloadAction<ChatType>) => {
