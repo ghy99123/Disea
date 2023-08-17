@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import { FriendSideBar, SideBar, Messenger, AppBar } from "./index";
+import { FriendSideBar, SideBar, Messenger, AppBar, Room } from "./index";
 import { logout } from "../../utils/auth";
 import { DashboardWrapper } from "./style";
 import { connectWithSocketServer } from "../../services/socket/socketConnection";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 // import { setUserDetails } from "../../redux/reducers/auth/authSlice";
 
 export default function Social() {
   // const dispatch = useAppDispatch();
+
+  const { isUserInRoom } = useAppSelector((state) => state.room);
 
   useEffect(() => {
     // const userDetail = localStorage.getItem("user");
@@ -28,6 +30,7 @@ export default function Social() {
         <FriendSideBar />
         <Messenger />
         <AppBar />
+        {isUserInRoom && <Room />}
       </DashboardWrapper>
     </div>
   );
