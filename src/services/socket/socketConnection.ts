@@ -6,7 +6,12 @@ import {
   setOnlineFriends,
 } from "../../redux/reducers/friends/friendsSlice";
 import { setMessages } from "../../redux/reducers/chat/chatSlice";
+import {
+  setRoomDetails,
+  setActiveRooms,
+} from "../../redux/reducers/room/roomSlice";
 import type { MessageType } from "../../redux/reducers/chat/chatSlice";
+import type { RoomDetails } from "../../redux/reducers/room/roomSlice";
 
 let socket: any = null;
 
@@ -50,6 +55,32 @@ export const connectWithSocketServer = (userToken: string) => {
       // updateDirectChatHistoryIfActive(data);
     }
   );
+
+  socket.on("room-create", (data: { roomDetails: RoomDetails }) => {
+    console.log("room-create", data);
+    store.dispatch(setRoomDetails(data.roomDetails));
+  });
+
+  socket.on("active-rooms", (data: { activeRooms: RoomDetails[] }) => {
+    const { activeRooms } = data;
+
+    console.log("active-rooms", data);
+    const friends = store.getState().friends.friends;
+    const rooms: RoomDetails[] = [];
+
+    activeRooms.forEach((room) => {
+      friends.forEach((f) => {
+        console.log("ssss", f.id, room.roomCreator.userId);
+        if (f.id === room.roomCreator.userId) {
+          rooms.push({ ...room, creatorUserName: f.username });
+        }
+      });
+    });
+
+    console.log(rooms);
+
+    store.dispatch(setActiveRooms(rooms));
+  });
 };
 
 export const sendDirectMessage = (data: {
@@ -62,4 +93,8 @@ export const sendDirectMessage = (data: {
 
 export const getDirectChatHistory = (data: { receiverUserId: string }) => {
   socket.emit("direct-chat-history", data);
+};
+
+export const emitRoomCreate = () => {
+  socket.emit("room-create");
 };

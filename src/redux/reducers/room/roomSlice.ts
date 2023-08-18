@@ -1,10 +1,22 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export type ConnectedSocketType = {
+  socketId: string;
+  userId: string;
+};
+
+export type RoomDetails = {
+  participants: ConnectedSocketType[];
+  roomCreator: ConnectedSocketType;
+  roomId: string;
+  creatorUserName?: string;
+};
+
 export interface RoomState {
   isUserInRoom: boolean;
   isUserRoomCreator: boolean;
-  roomDetails: any;
-  activeRooms: any[];
+  roomDetails: RoomDetails | null;
+  activeRooms: RoomDetails[];
   localStream: any;
   remoteStreams: any[];
   screenSharingStream: any;
@@ -38,8 +50,14 @@ export const RoomSlice = createSlice({
       isUserInRoom: action.payload.isUserInRoom,
       isUserRoomCreator: action.payload.isUserRoomCreator,
     }),
-    setRoomDetails: () => {},
-    setActiveRooms: () => {},
+    setRoomDetails: (state, action: PayloadAction<RoomDetails>) => ({
+      ...state,
+      roomDetails: action.payload,
+    }),
+    setActiveRooms: (state, action: PayloadAction<RoomDetails[]>) => ({
+      ...state,
+      activeRooms: action.payload,
+    }),
     setLocalStream: () => {},
     setRemoteStreams: () => {},
     setAudioOnly: () => {},
@@ -47,5 +65,5 @@ export const RoomSlice = createSlice({
   },
 });
 
-export const { openRoom } = RoomSlice.actions;
+export const { openRoom, setRoomDetails, setActiveRooms } = RoomSlice.actions;
 export default RoomSlice.reducer;
