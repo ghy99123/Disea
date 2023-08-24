@@ -1,4 +1,5 @@
 import React from "react";
+import * as process from "process";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
@@ -7,6 +8,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { appTheme } from "./theme";
+
+(window as any).global = window;
+(window as any).process = process;
+(window as any).Buffer = [];
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

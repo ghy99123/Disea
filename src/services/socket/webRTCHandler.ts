@@ -103,10 +103,10 @@ export const handleSignalingData = (data: SignalDataType) => {
 export const closeAllConnections = () => {
   try {
     Object.keys(peers).forEach((connUserSocketId) => {
-      // if (peers[connUserSocketId]) {
-      peers[connUserSocketId].destroy();
-      // delete peers[connUserSocketId];
-      // }
+      if (peers[connUserSocketId]) {
+        peers[connUserSocketId].destroy();
+        delete peers[connUserSocketId];
+      }
     });
     console.log(peers);
   } catch (e) {
@@ -115,21 +115,19 @@ export const closeAllConnections = () => {
 };
 
 export const handleParticipantLeftRoom = (connUserSocketId: string) => {
-  // try {
-  //   // if (peers[connUserSocketId]) {
-  //   //   peers[connUserSocketId].destroy();
-  //   //   delete peers[connUserSocketId];
-  //   // }
-  //   console.log("test4");
-  //   const remoteStreams = store.getState().room.remoteStreams;
-  //   const newRemoteStreams = remoteStreams.filter((remoteStream: any) => {
-  //     return remoteStream.connUserSocketId !== connUserSocketId;
-  //   });
-  //   console.log("test5", newRemoteStreams, remoteStreams);
-  //   store.dispatch(setRemoteStreams(newRemoteStreams));
-  // } catch (e) {
-  //   console.log("error!", e);
-  // }
+  try {
+    if (peers[connUserSocketId]) {
+      peers[connUserSocketId].destroy();
+      delete peers[connUserSocketId];
+    }
+    const remoteStreams = store.getState().room.remoteStreams;
+    const newRemoteStreams = remoteStreams.filter((remoteStream: any) => {
+      return remoteStream.connUserSocketId !== connUserSocketId;
+    });
+    store.dispatch(setRemoteStreams(newRemoteStreams));
+  } catch (e) {
+    console.log("error!", e);
+  }
 };
 
 const addNewRemoteStream = (remoteStream: MediaStream) => {
