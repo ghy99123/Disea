@@ -2,11 +2,20 @@ import React, { useState } from "react";
 import { IconButton } from "@mui/material";
 import { Videocam, VideocamOff } from "@mui/icons-material";
 
-export default function CameraButton() {
-  const [cameraEnabled, setCameraEnabled] = useState(false);
+interface Props {
+  localStream: MediaStream | null;
+}
+
+export default function CameraButton(props: Props) {
+  const { localStream } = props;
+
+  const [cameraEnabled, setCameraEnabled] = useState(true);
 
   const handleToggleCamera = () => {
-    setCameraEnabled(!cameraEnabled);
+    if (localStream) {
+      localStream.getVideoTracks()[0].enabled = !cameraEnabled;
+      setCameraEnabled(!cameraEnabled);
+    }
   };
 
   return (
