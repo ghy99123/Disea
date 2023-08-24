@@ -12,6 +12,12 @@ import {
 } from "../../redux/reducers/room/roomSlice";
 import type { MessageType } from "../../redux/reducers/chat/chatSlice";
 import type { RoomDetails } from "../../redux/reducers/room/roomSlice";
+import {
+  SignalDataType,
+  handleParticipantLeftRoom,
+  handleSignalingData,
+} from "./webRTCHandler";
+import { prepareNewPeerConnection } from "./webRTCHandler";
 
 let socket: any = null;
 
@@ -62,24 +68,45 @@ export const connectWithSocketServer = (userToken: string) => {
   });
 
   socket.on("active-rooms", (data: { activeRooms: RoomDetails[] }) => {
-    const { activeRooms } = data;
+    try {
+      const { activeRooms } = data;
 
-    console.log("active-rooms", data);
-    const friends = store.getState().friends.friends;
-    const rooms: RoomDetails[] = [];
+      const friends = store.getState().friends.friends;
+      const rooms: RoomDetails[] = [];
 
-    activeRooms.forEach((room) => {
-      friends.forEach((f) => {
-        console.log("ssss", f.id, room.roomCreator.userId);
-        if (f.id === room.roomCreator.userId) {
-          rooms.push({ ...room, creatorUserName: f.username });
-        }
+      activeRooms.forEach((room) => {
+        friends.forEach((f) => {
+          if (f.id === room?.roomCreator?.userId) {
+            rooms.push({ ...room, creatorUserName: f.username });
+          }
+        });
       });
-    });
 
-    console.log(rooms);
+      console.log(rooms);
 
-    store.dispatch(setActiveRooms(rooms));
+      store.dispatch(setActiveRooms(rooms));
+    } catch (error) {
+      console.log("error!!", error);
+    }
+  });
+
+  socket.on("conn-prepare", (data: { connUserSocketId: string }) => {
+    console.log("prepare for join connection", data);
+    prepareNewPeerConnection(data.connUserSocketId, false);
+    socket.emit("conn-init", data);
+  });
+
+  socket.on("conn-init", (data: { connUserSocketId: string }) => {
+    prepareNewPeerConnection(data.connUserSocketId, true);
+  });
+
+  socket.on("conn-signal", (data: SignalDataType) => {
+    handleSignalingData(data);
+  });
+
+  socket.on("room-participant-left", (data: { connUserSocketId: string }) => {
+    console.log("user left room", data);
+    handleParticipantLeftRoom(data.connUserSocketId);
   });
 };
 
@@ -97,4 +124,17 @@ export const getDirectChatHistory = (data: { receiverUserId: string }) => {
 
 export const emitRoomCreate = () => {
   socket.emit("room-create");
+};
+
+export const emitJoinRoom = (data: { roomId: string }) => {
+  socket.emit("room-join", data);
+};
+
+export const emitLeaveRoom = (data: { roomId: string }) => {
+  console.log("test2");
+  socket.emit("room-leave", data);
+};
+
+export const signalPeerData = (signalData: SignalDataType) => {
+  socket.emit("conn-signal", signalData);
 };

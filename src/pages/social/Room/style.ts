@@ -33,6 +33,18 @@ export const VideoContainer = styled(`div`)({
   height: "85%",
 });
 
+export const SingleVideoContainer = styled(`div`)({
+  height: "50%",
+  width: "50%",
+  backgroundColor: "black",
+  borderRadius: "8px",
+});
+
+export const VideoEl = styled(`video`)({
+  width: "100%",
+  height: "100%",
+});
+
 export const ButtonMenuContainer = styled(`div`)(({ theme }) => ({
   height: "15%",
   width: "100%",

@@ -1,6 +1,6 @@
-import { Button, Tooltip } from "@mui/material";
-import { Avatar } from "../../../components";
+import { Tooltip } from "@mui/material";
 import { MainPageButton } from "./style";
+import { useRoomHandler } from "../../../hooks";
 
 export interface IActiveRoomButtonProps {
   creatorUsername: string;
@@ -11,10 +11,12 @@ export interface IActiveRoomButtonProps {
 
 export default function ActiveRoomButton(props: IActiveRoomButtonProps) {
   const { creatorUsername, roomId, amountOfParticipants, isUserInRoom } = props;
+  const { joinRoom } = useRoomHandler();
 
   const handleJoinActiveRoom = () => {
     if (amountOfParticipants < 4) {
       // joinRoom
+      joinRoom(roomId);
     }
   };
 

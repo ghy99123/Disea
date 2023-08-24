@@ -31,7 +31,7 @@ export default function SideBar(props: ISideBarProps) {
             key={room.roomId}
             creatorUsername={room.creatorUserName as string}
             roomId={room.roomId}
-            amountOfParticipants={room.participants.length}
+            amountOfParticipants={room.participants?.length || 0}
             isUserInRoom={isUserInRoom}
           />
         );

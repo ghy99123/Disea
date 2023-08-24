@@ -6,9 +6,9 @@ export type ConnectedSocketType = {
 };
 
 export type RoomDetails = {
-  participants: ConnectedSocketType[];
-  roomCreator: ConnectedSocketType;
   roomId: string;
+  participants?: ConnectedSocketType[];
+  roomCreator?: ConnectedSocketType;
   creatorUserName?: string;
 };
 
@@ -17,8 +17,8 @@ export interface RoomState {
   isUserRoomCreator: boolean;
   roomDetails: RoomDetails | null;
   activeRooms: RoomDetails[];
-  localStream: any;
-  remoteStreams: any[];
+  localStream: MediaStream | null;
+  remoteStreams: MediaStream[];
   screenSharingStream: any;
   audioOnly: boolean;
   isScreenSharingActive: boolean;
@@ -50,7 +50,7 @@ export const RoomSlice = createSlice({
       isUserInRoom: action.payload.isUserInRoom,
       isUserRoomCreator: action.payload.isUserRoomCreator,
     }),
-    setRoomDetails: (state, action: PayloadAction<RoomDetails>) => ({
+    setRoomDetails: (state, action: PayloadAction<RoomDetails | null>) => ({
       ...state,
       roomDetails: action.payload,
     }),
@@ -58,12 +58,28 @@ export const RoomSlice = createSlice({
       ...state,
       activeRooms: action.payload,
     }),
-    setLocalStream: () => {},
-    setRemoteStreams: () => {},
-    setAudioOnly: () => {},
+    setLocalStream: (state, action: PayloadAction<MediaStream | null>) => ({
+      ...state,
+      localStream: action.payload,
+    }),
+    setRemoteStreams: (state, action: PayloadAction<MediaStream[]>) => ({
+      ...state,
+      remoteStreams: action.payload,
+    }),
+    setAudioOnly: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      audioOnly: action.payload,
+    }),
     setScreenShareStream: () => {},
   },
 });
 
-export const { openRoom, setRoomDetails, setActiveRooms } = RoomSlice.actions;
+export const {
+  openRoom,
+  setRoomDetails,
+  setActiveRooms,
+  setLocalStream,
+  setAudioOnly,
+  setRemoteStreams,
+} = RoomSlice.actions;
 export default RoomSlice.reducer;
