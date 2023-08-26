@@ -74,7 +74,6 @@ export const RoomSlice = createSlice({
       state,
       action: PayloadAction<MediaStream | null>
     ) => {
-      console.log("whuuu");
       return {
         ...state,
         isScreenSharingActive: action.payload ? true : false,

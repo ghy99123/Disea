@@ -11,8 +11,7 @@ export default function MessengerContent() {
   const { chatDetails } = useAppSelector((state) => state.chat, shallowEqual);
 
   useDeepCompareEffect(() => {
-    // TODO: fetch chat history
-    console.log("saa");
+    // fetch chat history
     if (chatDetails?.id) {
       getDirectChatHistory({ receiverUserId: chatDetails.id });
     }

@@ -29,9 +29,7 @@ export default function ScreenShareButton() {
         );
       }
 
-      console.log("first", stream);
       if (stream !== null) {
-        console.log("reaady", stream);
         dispatch(setScreenShareStream(stream));
         // switchOutgoing video tracks
         switchOutgoingTracks(stream);

@@ -62,7 +62,6 @@ const useRoomHandler = () => {
 
       dispatch(setRemoteStreams([]));
       closeAllConnections();
-      console.log("test1");
 
       dispatch(setRoomDetails(null));
       dispatch(openRoom({ isUserInRoom: false, isUserRoomCreator: false }));

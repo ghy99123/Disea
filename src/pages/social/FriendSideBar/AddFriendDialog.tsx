@@ -29,7 +29,6 @@ export default function AddFriendDialog(props: IAddFriendDialogProps) {
   const handleSendInvitation = () => {
     sendFriendInvitation(email)
       .then((res) => {
-        console.log("success", res);
         if (res.code === 200) {
           display({
             message: "The invitation has been sent!",
