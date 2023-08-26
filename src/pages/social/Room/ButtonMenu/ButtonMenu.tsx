@@ -12,7 +12,7 @@ export default function ButtonMenu() {
   return (
     <ButtonMenuContainer>
       <CameraButton localStream={localStream} />
-      <MicButton />
+      <MicButton localStream={localStream} />
       <ScreenShareButton />
       <CloseButton />
     </ButtonMenuContainer>

@@ -4,6 +4,7 @@ import {
   setRoomDetails,
   setLocalStream,
   setRemoteStreams,
+  setScreenShareStream,
 } from "../redux/reducers/room/roomSlice";
 import {
   emitRoomCreate,
@@ -19,9 +20,8 @@ import {
 // handle everything with video room function
 const useRoomHandler = () => {
   const dispatch = useDispatch();
-  const { roomDetails, audioOnly, localStream } = useAppSelector(
-    (state) => state.room
-  );
+  const { roomDetails, audioOnly, localStream, screenSharingStream } =
+    useAppSelector((state) => state.room);
 
   const createRoom = () => {
     const callbackFn = () => {
@@ -53,6 +53,13 @@ const useRoomHandler = () => {
         localStream.getTracks().forEach((track) => track.stop());
         dispatch(setLocalStream(null));
       }
+
+      // clear screen sharing stream if it exists
+      if (screenSharingStream !== null) {
+        screenSharingStream.getTracks().forEach((t) => t.stop());
+        dispatch(setScreenShareStream(null));
+      }
+
       dispatch(setRemoteStreams([]));
       closeAllConnections();
       console.log("test1");

@@ -135,3 +135,21 @@ const addNewRemoteStream = (remoteStream: MediaStream) => {
   const newRemoteStreams = [...remoteStreams, remoteStream];
   store.dispatch(setRemoteStreams(newRemoteStreams));
 };
+
+export const switchOutgoingTracks = (stream: MediaStream) => {
+  for (const socketId in peers) {
+    const oldTracks = peers[socketId].streams[0].getTracks();
+    for (const index in oldTracks) {
+      for (const index2 in stream.getTracks()) {
+        const newTracks = stream.getTracks();
+        if (oldTracks[index].kind === newTracks[index2].kind) {
+          const oldTrack = oldTracks[index];
+          const newTrack = newTracks[index2];
+          const stream = peers[socketId].streams[0];
+          peers[socketId].replaceTrack(oldTrack, newTrack, stream);
+          break;
+        }
+      }
+    }
+  }
+};
